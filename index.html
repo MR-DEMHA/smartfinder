@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SmartFinder AI | Comparador Inteligente y Ofertas Verificadas</title>
+  <title>SmartFinder | Tecnología, videojuegos, moda y hogar</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -18,123 +18,207 @@
         </div>
         <div>
           <h1 class="text-xl font-black tracking-tight bg-gradient-to-r from-indigo-400 via-emerald-400 to-teal-300 bg-clip-text text-transparent">
-            SmartFinder AI
+            SmartFinder
           </h1>
-          <p class="text-xs text-slate-400 hidden sm:block">Plataforma Inteligente de Precios y Oportunidades</p>
+          <p class="text-xs text-slate-400 hidden sm:block">Ideas populares para todos los días</p>
         </div>
       </div>
 
       <div class="flex items-center space-x-3">
         <span class="text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 px-3 py-1 rounded-full font-semibold flex items-center">
-          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping mr-2"></span>
-          Ofertas en Directo
+          <span class="w-2 h-2 rounded-full bg-indigo-400 mr-2"></span>
+          12 productos · 4 categorías
         </span>
       </div>
     </div>
   </header>
 
-  <!-- Sección Buscador Inteligente -->
+  <!-- Búsqueda de productos -->
   <main class="max-w-6xl mx-auto px-4 py-8 flex-1 w-full">
     <div class="text-center mb-8">
       <h2 class="text-3xl md:text-5xl font-extrabold text-white tracking-tight mb-3">
-        Encuentra la mejor compra al instante
+        Lo que buscas, en un solo lugar
       </h2>
       <p class="text-slate-400 text-sm md:text-base max-w-2xl mx-auto">
-        Expresa tu necesidad en lenguaje natural. Nuestra IA compara miles de tiendas oficiales, analiza el histórico de precios y aplica las mejores ofertas activas.
+        Explora productos populares de tecnología, videojuegos, moda y hogar. Accede a Amazon para consultar el precio y la disponibilidad actuales.
       </p>
     </div>
 
-    <!-- Caja de Búsqueda Conversacional -->
+    <p class="text-xs text-slate-400 text-center mb-8">
+      El precio se consulta en Amazon. No mostramos descuentos estimados: solo una integración aprobada con su API puede proporcionar datos de oferta para este catálogo.
+    </p>
+
+    <!-- Buscador del catálogo -->
     <div class="bg-slate-900 p-3 rounded-2xl border border-slate-800 shadow-2xl mb-8">
-      <form onsubmit="searchWithAI(event)" class="flex flex-col md:flex-row gap-2">
+      <form onsubmit="searchProducts(event)" class="flex flex-col md:flex-row gap-2">
         <div class="relative flex-1">
-          <i class="fa-solid fa-sparkles absolute left-4 top-1/2 -translate-y-1/2 text-indigo-400"></i>
+          <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-indigo-400"></i>
           <input 
             type="text" 
             id="promptInput" 
-            placeholder="Ej: Busco un portátil de buena batería para diseño por menos de 700€..." 
+            placeholder="Busca auriculares, videojuegos, ropa, cocina..."
             class="w-full pl-11 pr-4 py-3.5 bg-slate-950 text-white rounded-xl text-sm border border-slate-800 focus:outline-none focus:border-indigo-500 transition placeholder:text-slate-500"
             required
           />
         </div>
         <button type="submit" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-6 py-3.5 rounded-xl transition shadow-lg shadow-indigo-600/20 flex items-center justify-center space-x-2">
           <i class="fa-solid fa-magnifying-glass"></i>
-          <span>Buscar Ofertas</span>
+          <span>Buscar</span>
         </button>
       </form>
     </div>
 
-    <!-- Filtros de Categorías Estilizados -->
+    <!-- Catálogos por categoría -->
     <div class="flex items-center justify-between border-b border-slate-800 pb-4 mb-6 overflow-x-auto gap-4">
       <div class="flex space-x-2 text-xs font-semibold">
-        <button onclick="filterCategory('all')" class="px-4 py-2 rounded-xl bg-indigo-600 text-white whitespace-nowrap">Todas las Oportunidades</button>
-        <button onclick="filterCategory('flash')" class="px-4 py-2 rounded-xl bg-slate-900 text-slate-300 hover:bg-slate-800 border border-slate-800 whitespace-nowrap">⚡ Ofertas Flash</button>
+        <button onclick="filterCategory('all')" class="px-4 py-2 rounded-xl bg-indigo-600 text-white whitespace-nowrap">Todo</button>
         <button onclick="filterCategory('tech')" class="px-4 py-2 rounded-xl bg-slate-900 text-slate-300 hover:bg-slate-800 border border-slate-800 whitespace-nowrap">💻 Tecnología</button>
-        <button onclick="filterCategory('home')" class="px-4 py-2 rounded-xl bg-slate-900 text-slate-300 hover:bg-slate-800 border border-slate-800 whitespace-nowrap">🏠 Hogar y Confort</button>
+        <button onclick="filterCategory('gaming')" class="px-4 py-2 rounded-xl bg-slate-900 text-slate-300 hover:bg-slate-800 border border-slate-800 whitespace-nowrap">🎮 Videojuegos</button>
+        <button onclick="filterCategory('fashion')" class="px-4 py-2 rounded-xl bg-slate-900 text-slate-300 hover:bg-slate-800 border border-slate-800 whitespace-nowrap">👟 Moda</button>
+        <button onclick="filterCategory('home')" class="px-4 py-2 rounded-xl bg-slate-900 text-slate-300 hover:bg-slate-800 border border-slate-800 whitespace-nowrap">🏠 Hogar</button>
       </div>
     </div>
 
-    <!-- Indicador de Carga -->
-    <div id="loading" class="hidden text-center py-12">
-      <div class="inline-block animate-spin text-indigo-500 text-4xl mb-3">
-        <i class="fa-solid fa-circle-notch"></i>
-      </div>
-      <p class="text-slate-400 font-medium text-sm">Consultando catálogos oficiales y aplicando descuentos en tiempo real...</p>
-    </div>
-
-    <!-- Catálogo de Ofertas -->
+    <!-- Catálogo de productos -->
     <div id="resultsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       <!-- Los productos se cargan dinámicamente -->
     </div>
   </main>
 
   <script>
-    // Configuración de tu Tag de Afiliado (Reemplaza con tu ID cuando lo tengas)
-    const MY_AFFILIATE_TAG = "smartfinder-21";
-
-    // Base de datos de productos con promociones reales
-    let products = [
+    // Productos para explorar en Amazon.es. Los precios no se simulan en el catálogo.
+    const products = [
       {
         id: 1,
-        title: "Sony WH-1000XM5 Auriculares Over-Ear",
-        badge: "⚡ Oferta Flash",
-        badgeColor: "bg-amber-500/10 text-amber-400 border-amber-500/20",
+        title: "Xiaomi Redmi Buds 6 Play — Auriculares Bluetooth",
+        badge: "Audio diario",
+        badgeColor: "bg-indigo-500/10 text-indigo-300 border-indigo-500/20",
         category: "tech",
-        price: 299.00,
-        originalPrice: 419.00,
-        store: "Amazon",
-        image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&auto=format&fit=crop&q=60",
-        aiAnalysis: "Mejor precio registrado en los últimos 90 días. Excelente aislamiento acústico para oficina o viajes.",
-        endTime: new Date().getTime() + (5 * 3600 * 1000 + 42 * 60 * 1000), // Faltan 5 horas y 42 mins
-        affiliateUrl: "https://www.amazon.es?tag=" + MY_AFFILIATE_TAG
+        store: "Amazon.es",
+        image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=900&auto=format&fit=crop&q=85",
+        description: "Auriculares compactos para música, llamadas y desplazamientos.",
+        searchTerm: "Xiaomi Redmi Buds 6 Play"
       },
       {
         id: 2,
-        title: "Apple MacBook Air M2 2023 (13.6'') 16GB",
-        badge: "📉 Mínimo Histórico",
-        badgeColor: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
+        title: "Amazon Echo Dot — Altavoz inteligente con Alexa",
+        badge: "Casa conectada",
+        badgeColor: "bg-sky-500/10 text-sky-300 border-sky-500/20",
         category: "tech",
-        price: 1099.00,
-        originalPrice: 1299.00,
-        store: "PcComponentes",
-        image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=500&auto=format&fit=crop&q=60",
-        aiAnalysis: "Ahorro directo de 200€. Recomendado por la IA para desarrollo de software y multitarea intensiva.",
-        endTime: new Date().getTime() + (12 * 3600 * 1000 + 15 * 60 * 1000),
-        affiliateUrl: "https://www.pccomponentes.com?tag=" + MY_AFFILIATE_TAG
+        store: "Amazon.es",
+        image: "https://images.unsplash.com/photo-1543512214-318c7553f230?w=900&auto=format&fit=crop&q=85",
+        description: "Altavoz compacto para música, alarmas y control por voz de dispositivos compatibles.",
+        searchTerm: "Amazon Echo Dot"
       },
       {
         id: 3,
-        title: "Robot Aspirador Roborock S8 Pro Ultra",
-        badge: "⭐ Mejor Valorada",
-        badgeColor: "bg-indigo-500/10 text-indigo-400 border-indigo-500/20",
+        title: "Logitech M185 — Ratón inalámbrico compacto",
+        badge: "Accesorio útil",
+        badgeColor: "bg-amber-500/10 text-amber-300 border-amber-500/20",
+        category: "tech",
+        store: "Amazon.es",
+        image: "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=900&auto=format&fit=crop&q=85",
+        description: "Ratón sencillo con conexión inalámbrica para el portátil o el ordenador de casa.",
+        searchTerm: "Logitech M185 ratón"
+      },
+      {
+        id: 4,
+        title: "Mando inalámbrico DualSense para PlayStation 5",
+        badge: "Mando popular",
+        badgeColor: "bg-violet-500/10 text-violet-300 border-violet-500/20",
+        category: "gaming",
+        store: "Amazon.es",
+        image: "https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?w=900&auto=format&fit=crop&q=85",
+        description: "Mando con respuesta háptica y gatillos adaptativos para juegos compatibles.",
+        searchTerm: "mando Sony DualSense PS5"
+      },
+      {
+        id: 5,
+        title: "Logitech G203 LIGHTSYNC — Ratón gaming con cable",
+        badge: "Gaming asequible",
+        badgeColor: "bg-cyan-500/10 text-cyan-300 border-cyan-500/20",
+        category: "gaming",
+        store: "Amazon.es",
+        image: "https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?w=900&auto=format&fit=crop&q=85",
+        description: "Ratón ligero con iluminación RGB configurable para empezar a jugar en PC.",
+        searchTerm: "Logitech G203 LIGHTSYNC"
+      },
+      {
+        id: 6,
+        title: "Auriculares gaming con micrófono para PC y consola",
+        badge: "Para jugar y hablar",
+        badgeColor: "bg-rose-500/10 text-rose-300 border-rose-500/20",
+        category: "gaming",
+        store: "Amazon.es",
+        image: "https://images.unsplash.com/photo-1593305841991-05c297ba4575?w=900&auto=format&fit=crop&q=85",
+        description: "Busca modelos con micrófono integrado y conexión compatible con tu equipo.",
+        searchTerm: "auriculares gaming con micrófono"
+      },
+      {
+        id: 7,
+        title: "Camiseta básica de algodón para uso diario",
+        badge: "Fondo de armario",
+        badgeColor: "bg-emerald-500/10 text-emerald-300 border-emerald-500/20",
+        category: "fashion",
+        store: "Amazon.es",
+        image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=900&auto=format&fit=crop&q=85",
+        description: "Prenda básica fácil de combinar. Consulta tallas, colores y composición en la tienda.",
+        searchTerm: "camiseta básica algodón hombre mujer"
+      },
+      {
+        id: 8,
+        title: "Zapatillas deportivas de diario",
+        badge: "Comodidad diaria",
+        badgeColor: "bg-orange-500/10 text-orange-300 border-orange-500/20",
+        category: "fashion",
+        store: "Amazon.es",
+        image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=900&auto=format&fit=crop&q=85",
+        description: "Modelos versátiles para caminar y vestir a diario; revisa guía de tallas y devoluciones.",
+        searchTerm: "zapatillas deportivas hombre mujer"
+      },
+      {
+        id: 9,
+        title: "Mochila casual para trabajo, estudio y viajes",
+        badge: "Para cada día",
+        badgeColor: "bg-blue-500/10 text-blue-300 border-blue-500/20",
+        category: "fashion",
+        store: "Amazon.es",
+        image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=900&auto=format&fit=crop&q=85",
+        description: "Busca una opción práctica con compartimentos y capacidad adecuada para tu rutina.",
+        searchTerm: "mochila casual trabajo estudio"
+      },
+      {
+        id: 10,
+        title: "Freidora de aire compacta para el día a día",
+        badge: "Cocina práctica",
+        badgeColor: "bg-yellow-500/10 text-yellow-300 border-yellow-500/20",
         category: "home",
-        price: 949.00,
-        originalPrice: 1299.00,
-        store: "El Corte Inglés",
-        image: "https://images.unsplash.com/photo-1517668808822-9e428d6904d0?w=500&auto=format&fit=crop&q=60",
-        aiAnalysis: "Base multifunción autónoma. Descuento del 27% aplicable por tiempo limitado.",
-        endTime: new Date().getTime() + (2 * 3600 * 1000 + 18 * 60 * 1000),
-        affiliateUrl: "https://www.elcorteingles.es?tag=" + MY_AFFILIATE_TAG
+        store: "Amazon.es",
+        image: "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=900&auto=format&fit=crop&q=85",
+        description: "Compara capacidad, potencia y facilidad de limpieza antes de elegir.",
+        searchTerm: "freidora de aire compacta"
+      },
+      {
+        id: 11,
+        title: "Bombilla LED inteligente regulable",
+        badge: "Pequeño cambio, más confort",
+        badgeColor: "bg-amber-500/10 text-amber-300 border-amber-500/20",
+        category: "home",
+        store: "Amazon.es",
+        image: "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=900&auto=format&fit=crop&q=85",
+        description: "Iluminación LED con control inteligente; comprueba si requiere puente o conexión Wi-Fi.",
+        searchTerm: "bombilla LED inteligente regulable"
+      },
+      {
+        id: 12,
+        title: "Cafetera italiana para preparar café en casa",
+        badge: "Café de cada día",
+        badgeColor: "bg-orange-500/10 text-orange-300 border-orange-500/20",
+        category: "home",
+        store: "Amazon.es",
+        image: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=900&auto=format&fit=crop&q=85",
+        description: "Alternativa sencilla para disfrutar de café en casa; elige el tamaño que necesitas.",
+        searchTerm: "cafetera italiana moka"
       }
     ];
 
@@ -142,10 +226,8 @@
       const container = document.getElementById('resultsContainer');
       
       container.innerHTML = items.map(prod => {
-        const discount = Math.round(((prod.originalPrice - prod.price) / prod.originalPrice) * 100);
-        
         return `
-          <div class="bg-slate-900 rounded-2xl border border-slate-800 overflow-hidden flex flex-col justify-between hover:border-slate-700 transition duration-300 group shadow-xl">
+          <div class="bg-slate-900 rounded-2xl border border-slate-800 overflow-hidden flex flex-col justify-between hover:border-indigo-500/50 transition duration-300 group shadow-xl">
             <div class="p-5">
               <!-- Cabecera de la tarjeta -->
               <div class="flex items-center justify-between mb-3">
@@ -157,99 +239,62 @@
                 </span>
               </div>
 
-              <!-- Imagen con descuento -->
-              <div class="relative h-48 bg-slate-950 rounded-xl mb-4 overflow-hidden flex items-center justify-center p-4">
-                <img src="${prod.image}" alt="${prod.title}" class="max-h-full max-w-full object-contain group-hover:scale-105 transition duration-300">
-                <span class="absolute top-2 right-2 bg-red-600 text-white font-black text-xs px-2 py-1 rounded-md shadow-md">
-                  -${discount}%
+              <!-- Imagen ilustrativa -->
+              <div class="relative h-48 bg-white rounded-xl mb-4 overflow-hidden flex items-center justify-center p-4">
+                <img src="${prod.image}" alt="${prod.title}" loading="lazy" class="h-full w-full object-cover group-hover:scale-105 transition duration-300">
+                <span class="absolute bottom-2 right-2 bg-slate-950/80 text-white text-[10px] px-2 py-1 rounded-md">
+                  Imagen ilustrativa
                 </span>
               </div>
 
               <h3 class="font-bold text-base text-white mb-2 leading-snug line-clamp-2">${prod.title}</h3>
 
-              <!-- Explicación de la IA -->
+              <!-- Características destacadas -->
               <div class="bg-slate-950 p-3 rounded-xl border border-slate-800/80 mb-4">
                 <p class="text-xs text-slate-300 leading-relaxed">
-                  <i class="fa-solid fa-robot text-indigo-400 mr-1"></i>
-                  <strong>Criterio IA:</strong> ${prod.aiAnalysis}
+                  <i class="fa-solid fa-circle-info text-indigo-400 mr-1"></i>
+                  <strong>Características:</strong> ${prod.description}
                 </p>
               </div>
             </div>
 
             <div class="p-5 pt-0">
-              <!-- Contador de Tiempo Restante -->
-              <div class="bg-slate-950 border border-slate-800/60 rounded-xl p-2.5 mb-4 flex items-center justify-between text-xs">
-                <span class="text-slate-400"><i class="fa-regular fa-clock text-amber-400 mr-1"></i> Expira en:</span>
-                <span class="font-mono font-bold text-amber-400 text-xs tracking-wider" id="timer-${prod.id}">Cargando...</span>
+              <div class="mb-4">
+                <span class="block text-[11px] text-slate-400 mb-1">Precio y disponibilidad</span>
+                <span class="text-sm font-bold text-white">Consulta el precio actual en Amazon.es</span>
               </div>
 
-              <div class="flex items-baseline space-x-2 mb-4">
-                <span class="text-2xl font-black text-white">${prod.price.toFixed(2)} €</span>
-                <span class="text-xs text-slate-500 line-through">${prod.originalPrice.toFixed(2)} €</span>
-              </div>
-
-              <!-- Enlace de Afiliado Directo -->
               <a 
-                href="${prod.affiliateUrl}" 
+                href="https://www.amazon.es/s?k=${encodeURIComponent(prod.searchTerm)}"
                 target="_blank" 
                 rel="noopener noreferrer"
                 class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 rounded-xl text-center block text-sm transition shadow-lg shadow-indigo-600/20"
               >
-                Ver Oferta en ${prod.store} <i class="fa-solid fa-arrow-up-right-from-square ml-1 text-xs"></i>
+                Ver opciones en Amazon.es <i class="fa-solid fa-arrow-up-right-from-square ml-1 text-xs"></i>
               </a>
             </div>
           </div>
         `;
       }).join('');
 
-      startTimers();
+      if (items.length === 0) {
+        container.innerHTML = '<p class="col-span-full text-center text-slate-400 py-12">No se encontraron productos. Prueba con otra búsqueda o categoría.</p>';
+      }
     }
 
-    // Lógica de Contadores en Tiempo Real
-    function startTimers() {
-      setInterval(() => {
-        products.forEach(prod => {
-          const timerElem = document.getElementById(`timer-${prod.id}`);
-          if (!timerElem) return;
-
-          const now = new Date().getTime();
-          const distance = prod.endTime - now;
-
-          if (distance < 0) {
-            timerElem.innerHTML = "PROMO FINALIZADA";
-            timerElem.classList.replace("text-amber-400", "text-red-400");
-            return;
-          }
-
-          const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-          const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-          const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-          timerElem.innerHTML = `${hours}h ${minutes}m ${seconds}s`;
-        });
-      }, 1000);
-    }
-
-    // Buscador Inteligente
-    function searchWithAI(e) {
+    // Búsqueda local en el catálogo
+    function searchProducts(e) {
       e.preventDefault();
-      const query = document.getElementById('promptInput').value.toLowerCase();
-      const loading = document.getElementById('loading');
-      const resultsContainer = document.getElementById('resultsContainer');
-
-      resultsContainer.innerHTML = '';
-      loading.classList.remove('hidden');
-
-      setTimeout(() => {
-        loading.classList.add('hidden');
-        renderProducts(products);
-      }, 800);
+      const query = document.getElementById('promptInput').value.trim().toLowerCase();
+      const matchingProducts = products.filter(product =>
+        `${product.title} ${product.category} ${product.store} ${product.description}`.toLowerCase().includes(query)
+      );
+      renderProducts(matchingProducts);
     }
 
     // Filtros Rápidos
     function filterCategory(cat) {
       if (cat === 'all') renderProducts(products);
-      else if (cat === 'flash') renderProducts(products.filter(p => p.badge.includes('Flash')));
       else renderProducts(products.filter(p => p.category === cat));
     }
 
