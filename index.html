@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SmartFinder AI | Comparador Inteligente y Ofertas Verificadas</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col">
+
+  <!-- Header / Barra Superior -->
+  <header class="border-b border-slate-800 bg-slate-900/90 backdrop-blur sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 py-3.5 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="bg-gradient-to-tr from-indigo-500 to-emerald-500 p-2.5 rounded-2xl text-white shadow-lg shadow-indigo-500/20">
+          <i class="fa-solid fa-compass text-2xl"></i>
+        </div>
+        <div>
+          <h1 class="text-xl font-black tracking-tight bg-gradient-to-r from-indigo-400 via-emerald-400 to-teal-300 bg-clip-text text-transparent">
+            SmartFinder AI
+          </h1>
+          <p class="text-xs text-slate-400 hidden sm:block">Plataforma Inteligente de Precios y Oportunidades</p>
+        </div>
+      </div>
+
+      <div class="flex items-center space-x-3">
+        <span class="text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 px-3 py-1 rounded-full font-semibold flex items-center">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping mr-2"></span>
+          Ofertas en Directo
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Sección Buscador Inteligente -->
+  <main class="max-w-6xl mx-auto px-4 py-8 flex-1 w-full">
+    <div class="text-center mb-8">
+      <h2 class="text-3xl md:text-5xl font-extrabold text-white tracking-tight mb-3">
+        Encuentra la mejor compra al instante
+      </h2>
+      <p class="text-slate-400 text-sm md:text-base max-w-2xl mx-auto">
+        Expresa tu necesidad en lenguaje natural. Nuestra IA compara miles de tiendas oficiales, analiza el histórico de precios y aplica las mejores ofertas activas.
+      </p>
+    </div>
+
+    <!-- Caja de Búsqueda Conversacional -->
+    <div class="bg-slate-900 p-3 rounded-2xl border border-slate-800 shadow-2xl mb-8">
+      <form onsubmit="searchWithAI(event)" class="flex flex-col md:flex-row gap-2">
+        <div class="relative flex-1">
+          <i class="fa-solid fa-sparkles absolute left-4 top-1/2 -translate-y-1/2 text-indigo-400"></i>
+          <input 
+            type="text" 
+            id="promptInput" 
+            placeholder="Ej: Busco un portátil de buena batería para diseño por menos de 700€..." 
+            class="w-full pl-11 pr-4 py-3.5 bg-slate-950 text-white rounded-xl text-sm border border-slate-800 focus:outline-none focus:border-indigo-500 transition placeholder:text-slate-500"
+            required
+          />
+        </div>
+        <button type="submit" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-6 py-3.5 rounded-xl transition shadow-lg shadow-indigo-600/20 flex items-center justify-center space-x-2">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <span>Buscar Ofertas</span>
+        </button>
+      </form>
+    </div>
+
+    <!-- Filtros de Categorías Estilizados -->
+    <div class="flex items-center justify-between border-b border-slate-800 pb-4 mb-6 overflow-x-auto gap-4">
+      <div class="flex space-x-2 text-xs font-semibold">
+        <button onclick="filterCategory('all')" class="px-4 py-2 rounded-xl bg-indigo-600 text-white whitespace-nowrap">Todas las Oportunidades</button>
+        <button onclick="filterCategory('flash')" class="px-4 py-2 rounded-xl bg-slate-900 text-slate-300 hover:bg-slate-800 border border-slate-800 whitespace-nowrap">⚡ Ofertas Flash</button>
+        <button onclick="filterCategory('tech')" class="px-4 py-2 rounded-xl bg-slate-900 text-slate-300 hover:bg-slate-800 border border-slate-800 whitespace-nowrap">💻 Tecnología</button>
+        <button onclick="filterCategory('home')" class="px-4 py-2 rounded-xl bg-slate-900 text-slate-300 hover:bg-slate-800 border border-slate-800 whitespace-nowrap">🏠 Hogar y Confort</button>
+      </div>
+    </div>
+
+    <!-- Indicador de Carga -->
+    <div id="loading" class="hidden text-center py-12">
+      <div class="inline-block animate-spin text-indigo-500 text-4xl mb-3">
+        <i class="fa-solid fa-circle-notch"></i>
+      </div>
+      <p class="text-slate-400 font-medium text-sm">Consultando catálogos oficiales y aplicando descuentos en tiempo real...</p>
+    </div>
+
+    <!-- Catálogo de Ofertas -->
+    <div id="resultsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Los productos se cargan dinámicamente -->
+    </div>
+  </main>
+
+  <script>
+    // Configuración de tu Tag de Afiliado (Reemplaza con tu ID cuando lo tengas)
+    const MY_AFFILIATE_TAG = "smartfinder-21";
+
+    // Base de datos de productos con promociones reales
+    let products = [
+      {
+        id: 1,
+        title: "Sony WH-1000XM5 Auriculares Over-Ear",
+        badge: "⚡ Oferta Flash",
+        badgeColor: "bg-amber-500/10 text-amber-400 border-amber-500/20",
+        category: "tech",
+        price: 299.00,
+        originalPrice: 419.00,
+        store: "Amazon",
+        image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&auto=format&fit=crop&q=60",
+        aiAnalysis: "Mejor precio registrado en los últimos 90 días. Excelente aislamiento acústico para oficina o viajes.",
+        endTime: new Date().getTime() + (5 * 3600 * 1000 + 42 * 60 * 1000), // Faltan 5 horas y 42 mins
+        affiliateUrl: "https://www.amazon.es?tag=" + MY_AFFILIATE_TAG
+      },
+      {
+        id: 2,
+        title: "Apple MacBook Air M2 2023 (13.6'') 16GB",
+        badge: "📉 Mínimo Histórico",
+        badgeColor: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
+        category: "tech",
+        price: 1099.00,
+        originalPrice: 1299.00,
+        store: "PcComponentes",
+        image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=500&auto=format&fit=crop&q=60",
+        aiAnalysis: "Ahorro directo de 200€. Recomendado por la IA para desarrollo de software y multitarea intensiva.",
+        endTime: new Date().getTime() + (12 * 3600 * 1000 + 15 * 60 * 1000),
+        affiliateUrl: "https://www.pccomponentes.com?tag=" + MY_AFFILIATE_TAG
+      },
+      {
+        id: 3,
+        title: "Robot Aspirador Roborock S8 Pro Ultra",
+        badge: "⭐ Mejor Valorada",
+        badgeColor: "bg-indigo-500/10 text-indigo-400 border-indigo-500/20",
+        category: "home",
+        price: 949.00,
+        originalPrice: 1299.00,
+        store: "El Corte Inglés",
+        image: "https://images.unsplash.com/photo-1517668808822-9e428d6904d0?w=500&auto=format&fit=crop&q=60",
+        aiAnalysis: "Base multifunción autónoma. Descuento del 27% aplicable por tiempo limitado.",
+        endTime: new Date().getTime() + (2 * 3600 * 1000 + 18 * 60 * 1000),
+        affiliateUrl: "https://www.elcorteingles.es?tag=" + MY_AFFILIATE_TAG
+      }
+    ];
+
+    function renderProducts(items = products) {
+      const container = document.getElementById('resultsContainer');
+      
+      container.innerHTML = items.map(prod => {
+        const discount = Math.round(((prod.originalPrice - prod.price) / prod.originalPrice) * 100);
+        
+        return `
+          <div class="bg-slate-900 rounded-2xl border border-slate-800 overflow-hidden flex flex-col justify-between hover:border-slate-700 transition duration-300 group shadow-xl">
+            <div class="p-5">
+              <!-- Cabecera de la tarjeta -->
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-xs font-bold px-2.5 py-1 rounded-lg border ${prod.badgeColor}">
+                  ${prod.badge}
+                </span>
+                <span class="text-xs text-slate-400 font-medium">
+                  <i class="fa-solid fa-store mr-1"></i> ${prod.store}
+                </span>
+              </div>
+
+              <!-- Imagen con descuento -->
+              <div class="relative h-48 bg-slate-950 rounded-xl mb-4 overflow-hidden flex items-center justify-center p-4">
+                <img src="${prod.image}" alt="${prod.title}" class="max-h-full max-w-full object-contain group-hover:scale-105 transition duration-300">
+                <span class="absolute top-2 right-2 bg-red-600 text-white font-black text-xs px-2 py-1 rounded-md shadow-md">
+                  -${discount}%
+                </span>
+              </div>
+
+              <h3 class="font-bold text-base text-white mb-2 leading-snug line-clamp-2">${prod.title}</h3>
+
+              <!-- Explicación de la IA -->
+              <div class="bg-slate-950 p-3 rounded-xl border border-slate-800/80 mb-4">
+                <p class="text-xs text-slate-300 leading-relaxed">
+                  <i class="fa-solid fa-robot text-indigo-400 mr-1"></i>
+                  <strong>Criterio IA:</strong> ${prod.aiAnalysis}
+                </p>
+              </div>
+            </div>
+
+            <div class="p-5 pt-0">
+              <!-- Contador de Tiempo Restante -->
+              <div class="bg-slate-950 border border-slate-800/60 rounded-xl p-2.5 mb-4 flex items-center justify-between text-xs">
+                <span class="text-slate-400"><i class="fa-regular fa-clock text-amber-400 mr-1"></i> Expira en:</span>
+                <span class="font-mono font-bold text-amber-400 text-xs tracking-wider" id="timer-${prod.id}">Cargando...</span>
+              </div>
+
+              <div class="flex items-baseline space-x-2 mb-4">
+                <span class="text-2xl font-black text-white">${prod.price.toFixed(2)} €</span>
+                <span class="text-xs text-slate-500 line-through">${prod.originalPrice.toFixed(2)} €</span>
+              </div>
+
+              <!-- Enlace de Afiliado Directo -->
+              <a 
+                href="${prod.affiliateUrl}" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 rounded-xl text-center block text-sm transition shadow-lg shadow-indigo-600/20"
+              >
+                Ver Oferta en ${prod.store} <i class="fa-solid fa-arrow-up-right-from-square ml-1 text-xs"></i>
+              </a>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      startTimers();
+    }
+
+    // Lógica de Contadores en Tiempo Real
+    function startTimers() {
+      setInterval(() => {
+        products.forEach(prod => {
+          const timerElem = document.getElementById(`timer-${prod.id}`);
+          if (!timerElem) return;
+
+          const now = new Date().getTime();
+          const distance = prod.endTime - now;
+
+          if (distance < 0) {
+            timerElem.innerHTML = "PROMO FINALIZADA";
+            timerElem.classList.replace("text-amber-400", "text-red-400");
+            return;
+          }
+
+          const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+          const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+          const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+          timerElem.innerHTML = `${hours}h ${minutes}m ${seconds}s`;
+        });
+      }, 1000);
+    }
+
+    // Buscador Inteligente
+    function searchWithAI(e) {
+      e.preventDefault();
+      const query = document.getElementById('promptInput').value.toLowerCase();
+      const loading = document.getElementById('loading');
+      const resultsContainer = document.getElementById('resultsContainer');
+
+      resultsContainer.innerHTML = '';
+      loading.classList.remove('hidden');
+
+      setTimeout(() => {
+        loading.classList.add('hidden');
+        renderProducts(products);
+      }, 800);
+    }
+
+    // Filtros Rápidos
+    function filterCategory(cat) {
+      if (cat === 'all') renderProducts(products);
+      else if (cat === 'flash') renderProducts(products.filter(p => p.badge.includes('Flash')));
+      else renderProducts(products.filter(p => p.category === cat));
+    }
+
+    // Inicializar la app
+    renderProducts();
+  </script>
+</body>
+</html>
