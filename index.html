@@ -45,7 +45,7 @@
     </div>
 
     <p class="text-xs text-slate-400 text-center mb-8">
-      Este catálogo contiene búsquedas orientativas; no es un ranking verificado de ventas ni confirma ofertas flash. Comprueba el precio, la disponibilidad y las condiciones en Amazon.
+      Este catálogo contiene búsquedas orientativas; no es un ranking verificado de ventas ni confirma ofertas flash. Las ilustraciones son orientativas. Comprueba el precio y la disponibilidad en Amazon.
     </p>
 
     <!-- Buscador del catálogo -->
@@ -421,13 +421,6 @@
       ]
     };
 
-    const categoryImages = Object.fromEntries(
-      Object.keys(suggestedSearches).map(category => [
-        category,
-        featuredProducts.find(product => product.category === category).image
-      ])
-    );
-
     let nextProductId = featuredProducts.length;
     const products = [
       ...featuredProducts,
@@ -439,7 +432,6 @@
           badgeColor: "bg-indigo-500/10 text-indigo-300 border-indigo-500/20",
           category,
           store: "Amazon.es",
-          image: categoryImages[category],
           description: "Búsqueda orientativa. Comprueba las características, el precio y la disponibilidad del producto en Amazon.",
           searchTerm
         }))
@@ -449,6 +441,63 @@
     let displayedProducts = products;
     let displayedCount = 0;
     const pageSize = 24;
+    const categoryNames = {
+      tech: "Tecnología",
+      gaming: "Videojuegos",
+      fashion: "Moda",
+      home: "Hogar"
+    };
+
+    function getProductIcon(product) {
+      const searchTerm = product.searchTerm.toLowerCase();
+      const productIcons = [
+        [/auriculares|buds/, "fa-headphones"],
+        [/altavoz|barra de sonido/, "fa-volume-high"],
+        [/mando|joy-con|joystick|volante|pedales|videojuego|juego de (aventuras|carreras|fútbol|mundo abierto)|juego familiar|consola|playstation|xbox|nintendo|steam deck/, "fa-gamepad"],
+        [/iphone|smartphone|móvil/, "fa-mobile-screen-button"],
+        [/ipad|tableta|kindle/, "fa-tablet-screen-button"],
+        [/portátil|laptop|macbook|ordenador/, "fa-laptop"],
+        [/monitor|televisor|televisión/, "fa-tv"],
+        [/ssd|disco duro|microsd|tarjeta gráfica|almacenamiento/, "fa-hard-drive"],
+        [/webcam|cámara|capturadora/, "fa-camera"],
+        [/micrófono/, "fa-microphone"],
+        [/ratón|mouse/, "fa-computer-mouse"],
+        [/teclado/, "fa-keyboard"],
+        [/router|wi-fi|wifi|mesh/, "fa-wifi"],
+        [/cargador|cable|usb|regleta|enchufe/, "fa-plug"],
+        [/reloj|pulsera de actividad|báscula/, "fa-clock"],
+        [/camiseta|sudadera|chaqueta|vaqueros|pantalón|vestido|falda|camisa|blusa|pijama|ropa|leggings|mallas|top deportivo|abrigo/, "fa-shirt"],
+        [/zapatillas|botas|sandalias|chanclas|calzado/, "fa-shoe-prints"],
+        [/mochila|bolso|cartera|maleta|bolsa de deporte/, "fa-bag-shopping"],
+        [/gafas/, "fa-glasses"],
+        [/gorra|bufanda|guantes|calcetines|cinturón/, "fa-mitten"],
+        [/freidora|cafetera|cocina|sartén|ollas|cuchillos|batidora|tostadora|hervidor|microondas|termo|botella|recipientes/, "fa-kitchen-set"],
+        [/aspirador|aspiradora/, "fa-broom"],
+        [/purificador|humidificador|ventilador/, "fa-wind"],
+        [/bombilla|lámpara|iluminación|led/, "fa-lightbulb"],
+        [/sábanas|edredón|almohada|colchón|toallas|cortinas|alfombra/, "fa-bed"],
+        [/armario|estantería|cajas organizadoras|escritorio|silla/, "fa-couch"],
+        [/detector|timbre|seguridad/, "fa-shield-halved"],
+        [/calefactor|termostato/, "fa-temperature-half"],
+        [/secador|cepillo|dispensador/, "fa-spa"]
+      ];
+      const match = productIcons.find(([terms]) => terms.test(searchTerm));
+      if (match) return match[1];
+      return product.category === "gaming" ? "fa-gamepad" : "fa-box";
+    }
+
+    function renderProductImage(product) {
+      if (product.image) {
+        return `<img src="${product.image}" alt="Imagen ilustrativa de ${product.title}" loading="lazy" class="h-full w-full object-cover group-hover:scale-105 transition duration-300">`;
+      }
+
+      return `
+        <div class="h-full w-full flex flex-col items-center justify-center bg-gradient-to-br from-slate-800 to-indigo-950 text-indigo-300">
+          <i class="fa-solid ${getProductIcon(product)} text-6xl mb-3" aria-hidden="true"></i>
+          <span class="text-xs text-slate-300 text-center">${categoryNames[product.category]}</span>
+        </div>
+      `;
+    }
 
     function renderProducts(items = products, append = false) {
       const container = document.getElementById('resultsContainer');
@@ -473,9 +522,9 @@
                 </span>
               </div>
 
-              <!-- Imagen ilustrativa -->
+              <!-- Ilustración del producto -->
               <div class="relative h-48 bg-white rounded-xl mb-4 overflow-hidden flex items-center justify-center p-4">
-                <img src="${prod.image}" alt="${prod.title}" loading="lazy" class="h-full w-full object-cover group-hover:scale-105 transition duration-300">
+                ${renderProductImage(prod)}
                 <span class="absolute bottom-2 right-2 bg-slate-950/80 text-white text-[10px] px-2 py-1 rounded-md">
                   Imagen ilustrativa
                 </span>
@@ -493,9 +542,9 @@
             </div>
 
             <div class="p-5 pt-0">
-              <div class="mb-4">
-                <span class="block text-[11px] text-slate-400 mb-1">Precio y disponibilidad</span>
-                <span class="text-sm font-bold text-white">Consulta el precio actual en Amazon.es</span>
+              <div class="bg-slate-950 p-3 rounded-xl border border-slate-800/80 mb-4">
+                <span class="block text-[11px] text-slate-400 mb-1">Precio actual</span>
+                <span class="text-sm font-bold text-white">Consulta el precio en Amazon.es</span>
               </div>
 
               <a 
@@ -504,7 +553,7 @@
                 rel="noopener noreferrer"
                 class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 rounded-xl text-center block text-sm transition shadow-lg shadow-indigo-600/20"
               >
-                Ver opciones en Amazon.es <i class="fa-solid fa-arrow-up-right-from-square ml-1 text-xs"></i>
+                Ver resultados en Amazon.es <i class="fa-solid fa-arrow-up-right-from-square ml-1 text-xs"></i>
               </a>
             </div>
           </div>
