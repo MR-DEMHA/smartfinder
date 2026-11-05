@@ -27,7 +27,7 @@
       <div class="flex items-center space-x-3">
         <span class="text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 px-3 py-1 rounded-full font-semibold flex items-center">
           <span class="w-2 h-2 rounded-full bg-indigo-400 mr-2"></span>
-          12 productos · 4 categorías
+          200 búsquedas sugeridas · 4 categorías
         </span>
       </div>
     </div>
@@ -40,12 +40,12 @@
         Lo que buscas, en un solo lugar
       </h2>
       <p class="text-slate-400 text-sm md:text-base max-w-2xl mx-auto">
-        Explora productos populares de tecnología, videojuegos, moda y hogar. Accede a Amazon para consultar el precio y la disponibilidad actuales.
+        Explora búsquedas sugeridas de tecnología, videojuegos, moda y hogar. Accede a Amazon para consultar los productos disponibles.
       </p>
     </div>
 
     <p class="text-xs text-slate-400 text-center mb-8">
-      El precio se consulta en Amazon. No mostramos descuentos estimados: solo una integración aprobada con su API puede proporcionar datos de oferta para este catálogo.
+      Este catálogo contiene búsquedas orientativas; no es un ranking verificado de ventas ni confirma ofertas flash. Comprueba el precio, la disponibilidad y las condiciones en Amazon.
     </p>
 
     <!-- Buscador del catálogo -->
@@ -87,7 +87,7 @@
 
   <script>
     // Productos para explorar en Amazon.es. Los precios no se simulan en el catálogo.
-    const products = [
+    const featuredProducts = [
       {
         id: 1,
         title: "Xiaomi Redmi Buds 6 Play — Auriculares Bluetooth",
@@ -222,10 +222,244 @@
       }
     ];
 
-    function renderProducts(items = products) {
+    const suggestedSearches = {
+      tech: [
+        "iPhone 16",
+        "Samsung Galaxy S25",
+        "Xiaomi Redmi Note 14",
+        "Google Pixel 9",
+        "iPad 11 generación",
+        "Samsung Galaxy Tab S10",
+        "Kindle Paperwhite",
+        "MacBook Air M4",
+        "portátil Lenovo IdeaPad",
+        "portátil ASUS Vivobook",
+        "monitor 27 pulgadas 4K",
+        "monitor gaming 144 Hz",
+        "SSD externo 1 TB",
+        "SSD NVMe 2 TB",
+        "disco duro externo 2 TB",
+        "hub USB-C para portátil",
+        "cargador USB-C 65 W",
+        "batería externa 20000 mAh",
+        "cable USB-C carga rápida",
+        "router Wi-Fi 6",
+        "sistema Wi-Fi mesh",
+        "webcam para videollamadas",
+        "micrófono USB para ordenador",
+        "teclado inalámbrico compacto",
+        "teclado mecánico inalámbrico",
+        "ratón inalámbrico ergonómico",
+        "auriculares Bluetooth",
+        "auriculares con cancelación de ruido",
+        "altavoz Bluetooth portátil",
+        "reloj inteligente GPS",
+        "pulsera de actividad",
+        "monitor 4K para ordenador",
+        "impresora multifunción Wi-Fi",
+        "cartuchos de tinta para impresora",
+        "tableta gráfica para dibujo",
+        "webcam 4K",
+        "NAS para copia de seguridad doméstica",
+        "enchufe inteligente Wi-Fi",
+        "cámara de vigilancia interior",
+        "cámara de acción 4K",
+        "cámara de salpicadero para coche",
+        "proyector portátil Full HD",
+        "televisor 55 pulgadas 4K",
+        "barra de sonido para televisor",
+        "router gaming Wi-Fi",
+        "funda para iPhone",
+        "soporte ajustable para portátil"
+      ],
+      gaming: [
+        "PlayStation 5 Slim",
+        "Xbox Series X",
+        "Nintendo Switch OLED",
+        "consola portátil para videojuegos",
+        "Steam Deck OLED",
+        "mando DualSense para PS5",
+        "mando inalámbrico Xbox",
+        "mandos Joy-Con para Nintendo Switch",
+        "auriculares gaming inalámbricos",
+        "silla gaming ergonómica",
+        "teclado mecánico gaming",
+        "ratón gaming ligero",
+        "alfombrilla gaming XL",
+        "monitor gaming 27 pulgadas 144 Hz",
+        "portátil gaming RTX",
+        "ordenador gaming de sobremesa",
+        "tarjeta gráfica GeForce RTX",
+        "SSD para ampliar almacenamiento PS5",
+        "SSD NVMe para gaming",
+        "capturadora de vídeo para streaming",
+        "webcam para streaming",
+        "micrófono para streaming",
+        "controlador para streaming",
+        "router Wi-Fi para gaming",
+        "disco duro externo para consola",
+        "base de carga para mandos PS5",
+        "gafas de realidad virtual para juegos",
+        "volante gaming para PC y consola",
+        "juego de aventuras para PS5",
+        "juego de carreras para PS5",
+        "juego de fútbol para PS5",
+        "juego de mundo abierto para PS5",
+        "juego familiar para Nintendo Switch",
+        "juego de carreras para Nintendo Switch",
+        "tarjeta microSD para Nintendo Switch",
+        "funda de transporte para Nintendo Switch",
+        "base refrigeradora para portátil gaming",
+        "mando arcade para videojuegos",
+        "joystick para simulador de vuelo",
+        "pedales para volante gaming",
+        "batería recargable para mando Xbox",
+        "soporte para auriculares gaming",
+        "silla gaming con reposapiés",
+        "monitor gaming ultrawide",
+        "teclado gaming TKL",
+        "ratón gaming inalámbrico",
+        "cable HDMI 2.1 para consola"
+      ],
+      fashion: [
+        "camiseta básica de algodón para mujer",
+        "camiseta básica de algodón para hombre",
+        "vaqueros rectos para mujer",
+        "vaqueros rectos para hombre",
+        "sudadera con capucha unisex",
+        "chaqueta impermeable para mujer",
+        "chaqueta impermeable para hombre",
+        "zapatillas de running para mujer",
+        "zapatillas de running para hombre",
+        "zapatillas blancas casual",
+        "botas impermeables de mujer",
+        "botas casual de hombre",
+        "sandalias cómodas para mujer",
+        "mochila para portátil 15 pulgadas",
+        "mochila de viaje cabina",
+        "bolso bandolera para mujer",
+        "bolso tote de uso diario",
+        "cartera compacta de mujer",
+        "cartera de piel para hombre",
+        "reloj analógico para mujer",
+        "reloj analógico para hombre",
+        "gafas de sol polarizadas",
+        "gorra de béisbol ajustable",
+        "bufanda de invierno",
+        "guantes térmicos táctiles",
+        "pijama de algodón para mujer",
+        "pijama de algodón para hombre",
+        "ropa interior de algodón para mujer",
+        "ropa interior de algodón para hombre",
+        "calcetines deportivos transpirables",
+        "leggings deportivos para mujer",
+        "mallas deportivas para hombre",
+        "top deportivo de mujer",
+        "pantalón chino para hombre",
+        "vestido casual de verano",
+        "falda midi casual",
+        "camisa de lino para hombre",
+        "blusa casual de mujer",
+        "cinturón de piel para hombre",
+        "cinturón ajustable para mujer",
+        "maleta de cabina con ruedas",
+        "bolsa de deporte con compartimento para calzado",
+        "zapatillas de senderismo",
+        "chanclas ligeras para piscina",
+        "abrigo acolchado de invierno",
+        "chaqueta vaquera unisex",
+        "camiseta térmica de manga larga"
+      ],
+      home: [
+        "freidora de aire de 5 litros",
+        "cafetera espresso automática",
+        "cafetera italiana moka",
+        "robot aspirador con mapeo",
+        "aspiradora sin cable",
+        "purificador de aire para dormitorio",
+        "humidificador ultrasónico",
+        "bombilla inteligente regulable",
+        "tira LED para habitación",
+        "lámpara de escritorio LED",
+        "termo de acero inoxidable",
+        "botella de agua térmica",
+        "sartén antiadherente",
+        "juego de ollas de cocina",
+        "cuchillos de cocina con soporte",
+        "batidora de vaso",
+        "batidora de mano",
+        "tostadora de pan",
+        "hervidor eléctrico de agua",
+        "microondas compacto",
+        "báscula de cocina digital",
+        "báscula inteligente corporal",
+        "sábanas de algodón para cama doble",
+        "edredón nórdico para invierno",
+        "almohada viscoelástica",
+        "protector impermeable de colchón",
+        "toallas de baño de algodón",
+        "cortinas opacas para dormitorio",
+        "organizador de armario",
+        "estantería metálica para almacenaje",
+        "cajas organizadoras con tapa",
+        "mesa de escritorio para teletrabajo",
+        "silla ergonómica de escritorio",
+        "regleta con protección contra sobretensiones",
+        "detector de humo doméstico",
+        "cámara de seguridad exterior",
+        "timbre inalámbrico con cámara",
+        "enchufes inteligentes compatibles con Alexa",
+        "termostato inteligente para calefacción",
+        "ventilador de torre silencioso",
+        "calefactor cerámico portátil",
+        "plancha de vapor vertical",
+        "secador de pelo iónico",
+        "cepillo de dientes eléctrico",
+        "dispensador automático de jabón",
+        "alfombra lavable para salón",
+        "juego de recipientes herméticos para cocina"
+      ]
+    };
+
+    const categoryImages = Object.fromEntries(
+      Object.keys(suggestedSearches).map(category => [
+        category,
+        featuredProducts.find(product => product.category === category).image
+      ])
+    );
+
+    let nextProductId = featuredProducts.length;
+    const products = [
+      ...featuredProducts,
+      ...Object.entries(suggestedSearches).flatMap(([category, searches]) =>
+        searches.map(searchTerm => ({
+          id: ++nextProductId,
+          title: searchTerm,
+          badge: "Búsqueda sugerida",
+          badgeColor: "bg-indigo-500/10 text-indigo-300 border-indigo-500/20",
+          category,
+          store: "Amazon.es",
+          image: categoryImages[category],
+          description: "Búsqueda orientativa. Comprueba las características, el precio y la disponibilidad del producto en Amazon.",
+          searchTerm
+        }))
+      )
+    ];
+
+    let displayedProducts = products;
+    let displayedCount = 0;
+    const pageSize = 24;
+
+    function renderProducts(items = products, append = false) {
       const container = document.getElementById('resultsContainer');
-      
-      container.innerHTML = items.map(prod => {
+      if (!append) {
+        displayedProducts = items;
+        displayedCount = 0;
+      }
+
+      const visibleProducts = displayedProducts.slice(0, displayedCount + pageSize);
+      displayedCount = visibleProducts.length;
+      container.innerHTML = visibleProducts.map(prod => {
         return `
           <div class="bg-slate-900 rounded-2xl border border-slate-800 overflow-hidden flex flex-col justify-between hover:border-indigo-500/50 transition duration-300 group shadow-xl">
             <div class="p-5">
@@ -279,6 +513,12 @@
 
       if (items.length === 0) {
         container.innerHTML = '<p class="col-span-full text-center text-slate-400 py-12">No se encontraron productos. Prueba con otra búsqueda o categoría.</p>';
+      } else if (displayedCount < displayedProducts.length) {
+        container.innerHTML += `
+          <button onclick="renderProducts(displayedProducts, true)" class="col-span-full justify-self-center bg-slate-800 hover:bg-slate-700 text-white font-semibold px-6 py-3 rounded-xl transition">
+            Mostrar más (${displayedProducts.length - displayedCount} restantes)
+          </button>
+        `;
       }
     }
 
