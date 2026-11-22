@@ -27,27 +27,64 @@
       <div class="flex items-center space-x-3">
         <span class="text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 px-3 py-1 rounded-full font-semibold flex items-center">
           <span class="w-2 h-2 rounded-full bg-indigo-400 mr-2"></span>
-          Catálogo sin productos
+          2 productos
         </span>
       </div>
     </div>
   </header>
 
-  <!-- Estado del catálogo -->
+  <!-- Catálogo -->
   <main class="max-w-6xl mx-auto px-4 py-8 flex-1 w-full">
     <div class="text-center mb-8">
       <h2 class="text-3xl md:text-5xl font-extrabold text-white tracking-tight mb-3">
-        Tienda temporalmente vacía
+        Productos seleccionados
       </h2>
       <p class="text-slate-400 text-sm md:text-base max-w-2xl mx-auto">
-        Hemos retirado todos los productos del catálogo.
+        Encuentra aquí productos recomendados para ti.
       </p>
     </div>
 
-    <div class="max-w-2xl mx-auto bg-slate-900 border border-slate-800 rounded-2xl p-8 text-center">
-      <i class="fa-solid fa-box-open text-4xl text-indigo-400 mb-4" aria-hidden="true"></i>
-      <p class="text-slate-300">Actualmente no hay productos disponibles.</p>
+    <div class="mx-auto grid max-w-4xl gap-6 sm:grid-cols-2">
+      <article class="overflow-hidden rounded-2xl border border-slate-800 bg-slate-900 shadow-lg">
+        <div class="flex h-48 items-center justify-center bg-slate-800/70" aria-hidden="true">
+          <i class="fa-solid fa-plug text-6xl text-indigo-400"></i>
+        </div>
+        <div class="p-5">
+          <p class="mb-2 text-xs font-semibold uppercase tracking-wide text-emerald-400">Cargadores</p>
+          <h3 class="text-lg font-bold text-white">YISH 45W Charger Fast Charging</h3>
+          <a
+            href="https://www.amazon.es/dp/B0G93HMMC1?tag=d3mha-21"
+            target="_blank"
+            rel="sponsored nofollow noopener"
+            class="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-indigo-500 px-4 py-3 font-semibold text-white transition hover:bg-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-300"
+          >
+            Ver en Amazon
+            <i class="fa-solid fa-arrow-up-right-from-square text-sm" aria-hidden="true"></i>
+          </a>
+        </div>
+      </article>
+      <article class="overflow-hidden rounded-2xl border border-slate-800 bg-slate-900 shadow-lg">
+        <div class="flex h-48 items-center justify-center bg-slate-800/70" aria-hidden="true">
+          <i class="fa-solid fa-car-side text-6xl text-indigo-400"></i>
+        </div>
+        <div class="p-5">
+          <p class="mb-2 text-xs font-semibold uppercase tracking-wide text-emerald-400">Automoción</p>
+          <h3 class="text-lg font-bold text-white">Profile Rubber Edge Protector, 1.6 mm x 6 Metres</h3>
+          <a
+            href="https://www.amazon.es/dp/B0FGNH2NKJ?tag=d3mha-21"
+            target="_blank"
+            rel="sponsored nofollow noopener"
+            class="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-indigo-500 px-4 py-3 font-semibold text-white transition hover:bg-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-300"
+          >
+            Ver en Amazon
+            <i class="fa-solid fa-arrow-up-right-from-square text-sm" aria-hidden="true"></i>
+          </a>
+        </div>
+      </article>
     </div>
+    <p class="mt-8 text-center text-xs text-slate-500">
+      Como asociado de Amazon, obtengo ingresos por las compras adscritas que cumplen los requisitos aplicables.
+    </p>
   </main>
 </body>
 </html>
